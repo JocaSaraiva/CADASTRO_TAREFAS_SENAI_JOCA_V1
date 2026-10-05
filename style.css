@@ -1,21 +1,19 @@
-/* Variáveis CSS - facilitar o uso de temas para formatação */
 :root{
-    --gradiente-fundo:linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
     --fundo-cartao: #ffffff;
     --cor-texto: #2d3748;
-    --cor-primaria: #6c5ce7;
-    --cor-primaria-destaque: #5b4bc4;
-    --cor-borda: #edf2f7;
+    --cor-primaria: #0f766e;
+    --cor-primaria-destaque: #0b5a54;
+    --cor-borda: #e6efee;
     --cor-perigo: #ff7675;
     --cor-concluido: #a0aec0;
 }
 
-/* Modo escuro (ativado via classe no body) */
 body.modo-escuro{
-    --gradiente-fundo:linear-gradient(135deg, #2d3748 100%);
-    --fundo-cartao: #1a202c;
+    --fundo-cartao: #1a1a1a;
     --cor-texto: #f7fafc;
-    --cor-borda: #4a5568;
+    --cor-primaria: #ff7a1a;
+    --cor-primaria-destaque: #e66a0d;
+    --cor-borda: #3a3a3a;
 }
 
 *{
@@ -23,11 +21,11 @@ body.modo-escuro{
     margin: 0;
     padding: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    transition: background 0.3s, color 0.3s;
+    transition: background 0.3s, color 0.3s, border-color 0.3s;
 }
 
 body{
-    background: var(--gradiente-fundo);
+    background-color: #0f766e; 
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -35,34 +33,136 @@ body{
     padding: 20px;
 }
 
+body::before,
+body::after{
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: opacity 0.6s ease;
+}
+
+body::before{
+    background-image:
+        linear-gradient(135deg, rgba(255,255,255,0.30) 0%, rgba(15,118,110,0.55) 100%),
+        url("fundo-claro.jpg");
+    opacity: 1;
+}
+
+body::after{
+    background-image:
+        linear-gradient(135deg, rgba(58,58,58,0.70) 0%, rgba(0,0,0,0.92) 100%),
+        url("fundo-escuro.jpg");
+    opacity: 0;
+}
+
+body.modo-escuro::before{ opacity: 0; }
+body.modo-escuro::after{ opacity: 1; }
+
 .cartao-aplicacao{
     background: var(--fundo-cartao);
     color: var(--cor-texto);
     width: 100%;
-    max-width: 420px;
+    max-width: 480px;
     border-radius: 20px;
-    padding: 30px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    overflow: hidden; 
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
 }
 
-.cabecalho-aplicacao{
+.banner{
+    position: relative;
+    height: 160px;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
+    align-items: flex-end;
+    padding: 16px 20px;
+    overflow: hidden;
+    background: #0f766e;
+}
+
+
+.banner::before,
+.banner::after{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-repeat: no-repeat;
+    transition: opacity 0.6s ease;
+    z-index: 0;
+}
+
+.banner::before{
+    background-image:
+        linear-gradient(to bottom, rgba(0,0,0,0) 35%, rgba(0,0,0,0.85) 100%),
+        url("banner-claro.jpg");
+    background-position: center center;
+    opacity: 1;
+}
+
+.banner::after{
+    background-image:
+        linear-gradient(to bottom, rgba(0,0,0,0) 35%, rgba(0,0,0,0.85) 100%),
+        url("banner-escuro.jpg");
+    background-position: center center;
+    opacity: 0;
+}
+
+body.modo-escuro .banner::before{ opacity: 0; }
+body.modo-escuro .banner::after{ opacity: 1; }
+
+.avatar{
+    position: relative;
+    z-index: 1;
+    width: 72px;
+    height: 72px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    margin-right: 14px;
 }
 
 .cabecalho-aplicacao h1{
-    font-size: 1.5rem;
+    position: relative;
+    z-index: 1;
+    min-width: 0;
+    line-height: 1.15;
+    padding-bottom: 4px;
+    color: #ffffff;
+    font-size: 1.7rem;
     font-weight: 700;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+    overflow-wrap: anywhere;
 }
 
 .botao-icone{
-    background: transparent;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 2;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.45);
     border: none;
-    font-size: 1.2rem;
-    color: var(--cor-texto);
+    border-radius: 50%;
+    font-size: 1.1rem;
+    color: #ffffff;
     cursor: pointer;
+}
+
+.botao-icone:hover{
+    background: rgba(0, 0, 0, 0.65);
+}
+
+.conteudo-cartao{
+    padding: 24px;
 }
 
 .caixa-entrada{
@@ -73,6 +173,7 @@ body{
 
 input[type="text"]{
     flex: 1;
+    min-width: 0; 
     padding: 12px 15px;
     border: 2px solid var(--cor-borda);
     border-radius: 12px;
@@ -94,7 +195,9 @@ input[type="text"]:focus{
     border-radius: 12px;
     font-weight: 600;
     cursor: pointer;
-    transition: transform 0.1, background 0.2;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: transform 0.1s, background 0.3s;
 }
 
 .botao-principal:hover{
@@ -105,18 +208,25 @@ input[type="text"]:focus{
 .lista-tarefas{
     list-style: none;
     max-height: 280px;
-    overflow-y: auto
+    overflow-y: auto;
 }
 
 .item-tarefa{
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 10px;
     padding: 12px;
     background: var(--cor-borda);
     border-radius: 10px;
     margin-bottom: 10px;
     animation: aparecer 0.3s ease;
+}
+
+.item-tarefa span{
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
 }
 
 .item-tarefa.concluido span{
@@ -126,7 +236,8 @@ input[type="text"]:focus{
 
 .acoes-tarefa{
     display: flex;
-    gap: 8px
+    gap: 8px;
+    flex-shrink: 0;
 }
 
 .botao-acao{
@@ -138,7 +249,7 @@ input[type="text"]:focus{
 }
 
 .botao-acao.excluir:hover{
-    color: var(--cor-perigo)
+    color: var(--cor-perigo);
 }
 
 .rodape-aplicacao{
@@ -149,10 +260,18 @@ input[type="text"]:focus{
 }
 
 @keyframes aparecer{
-    from{
-        opacity: 0; transform: translateY(10px);
-    }
-    to{
-        opacity: 1; transform: translateY(0);
-    }
+    from{ opacity: 0; transform: translateY(10px); }
+    to{ opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 480px){
+    body{ padding: 12px; }
+    .conteudo-cartao{ padding: 20px 16px; }
+    .cabecalho-aplicacao h1{ font-size: 1.45rem; }
+    .avatar{ width: 60px; height: 60px; margin-right: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce){
+    .banner::before, .banner::after,
+    body::before, body::after{ transition: none; }
 }
