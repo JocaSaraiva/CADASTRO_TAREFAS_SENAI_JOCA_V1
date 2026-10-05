@@ -1,3 +1,4 @@
+/* ===== Variáveis (tema claro) ===== */
 :root{
     --fundo-cartao: #ffffff;
     --cor-texto: #2d3748;
@@ -8,6 +9,7 @@
     --cor-concluido: #a0aec0;
 }
 
+/* ===== Modo escuro (classe alternada no body pelo script.js) ===== */
 body.modo-escuro{
     --fundo-cartao: #1a1a1a;
     --cor-texto: #f7fafc;
@@ -25,7 +27,7 @@ body.modo-escuro{
 }
 
 body{
-    background-color: #0f766e; 
+    background-color: #0f766e; /* reserva enquanto a imagem carrega */
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -33,6 +35,8 @@ body{
     padding: 20px;
 }
 
+/* ===== Imagem de fundo da página (uma por tema, com fade na troca) =====
+   O véu colorido (degradê) fica por cima de cada imagem. */
 body::before,
 body::after{
     content: "";
@@ -45,6 +49,7 @@ body::after{
     transition: opacity 0.6s ease;
 }
 
+/* Modo claro: branco -> verde-água */
 body::before{
     background-image:
         linear-gradient(135deg, rgba(255,255,255,0.30) 0%, rgba(15,118,110,0.55) 100%),
@@ -52,6 +57,7 @@ body::before{
     opacity: 1;
 }
 
+/* Modo escuro: cinza -> preto */
 body::after{
     background-image:
         linear-gradient(135deg, rgba(58,58,58,0.70) 0%, rgba(0,0,0,0.92) 100%),
@@ -62,16 +68,18 @@ body::after{
 body.modo-escuro::before{ opacity: 0; }
 body.modo-escuro::after{ opacity: 1; }
 
+/* ===== Cartão ===== */
 .cartao-aplicacao{
     background: var(--fundo-cartao);
     color: var(--cor-texto);
     width: 100%;
     max-width: 480px;
     border-radius: 20px;
-    overflow: hidden; 
+    overflow: hidden; /* arredonda os cantos de cima do banner */
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
 }
 
+/* ===== Banner ===== */
 .banner{
     position: relative;
     height: 160px;
@@ -79,10 +87,11 @@ body.modo-escuro::after{ opacity: 1; }
     align-items: flex-end;
     padding: 16px 20px;
     overflow: hidden;
-    background: #0f766e;
+    background: #0f766e; /* cor de reserva enquanto a imagem carrega */
 }
 
-
+/* Duas camadas de imagem com degradê escuro embaixo (texto sempre legível).
+   Na troca de tema, uma faz fade para a outra. */
 .banner::before,
 .banner::after{
     content: "";
@@ -113,6 +122,7 @@ body.modo-escuro::after{ opacity: 1; }
 body.modo-escuro .banner::before{ opacity: 0; }
 body.modo-escuro .banner::after{ opacity: 1; }
 
+/* Foto de perfil: redonda, dentro do banner (sem sobrepor a borda e sem status) */
 .avatar{
     position: relative;
     z-index: 1;
@@ -139,6 +149,26 @@ body.modo-escuro .banner::after{ opacity: 1; }
     overflow-wrap: anywhere;
 }
 
+/* Relógio: pílula escura translúcida no canto superior esquerdo */
+.relogio{
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 2;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    background: rgba(0, 0, 0, 0.45);
+    border-radius: 20px;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums; /* dígitos com largura fixa, sem "tremer" */
+    letter-spacing: 0.5px;
+}
+
+/* Botão de tema: círculo escuro translúcido no canto superior direito */
 .botao-icone{
     position: absolute;
     top: 12px;
@@ -161,6 +191,7 @@ body.modo-escuro .banner::after{ opacity: 1; }
     background: rgba(0, 0, 0, 0.65);
 }
 
+/* ===== Conteúdo abaixo do banner ===== */
 .conteudo-cartao{
     padding: 24px;
 }
@@ -173,7 +204,7 @@ body.modo-escuro .banner::after{ opacity: 1; }
 
 input[type="text"]{
     flex: 1;
-    min-width: 0; 
+    min-width: 0; /* evita estourar o cartão no celular */
     padding: 12px 15px;
     border: 2px solid var(--cor-borda);
     border-radius: 12px;
@@ -205,6 +236,7 @@ input[type="text"]:focus{
     transform: translateY(-2px);
 }
 
+/* ===== Lista ===== */
 .lista-tarefas{
     list-style: none;
     max-height: 280px;
@@ -254,9 +286,39 @@ input[type="text"]:focus{
 
 .rodape-aplicacao{
     margin-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
     font-size: 0.85rem;
     color: var(--cor-concluido);
-    text-align: center;
+}
+
+.rodape-aplicacao span{
+    min-width: 0;
+}
+
+.botao-limpar{
+    background: transparent;
+    color: var(--cor-perigo);
+    border: 2px solid var(--cor-perigo);
+    padding: 6px 12px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.botao-limpar:hover:not(:disabled){
+    background: var(--cor-perigo);
+    color: #ffffff;
+}
+
+.botao-limpar:disabled{
+    opacity: 0.4;
+    cursor: not-allowed;
 }
 
 @keyframes aparecer{
@@ -264,6 +326,7 @@ input[type="text"]:focus{
     to{ opacity: 1; transform: translateY(0); }
 }
 
+/* ===== Celular ===== */
 @media (max-width: 480px){
     body{ padding: 12px; }
     .conteudo-cartao{ padding: 20px 16px; }

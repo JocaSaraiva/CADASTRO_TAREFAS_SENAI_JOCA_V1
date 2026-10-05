@@ -3,6 +3,8 @@ const botaoAdicionar = document.getElementById('botao-adicionar');
 const listaTarefas = document.getElementById('lista-tarefas');
 const contadorTarefas = document.getElementById('contador-tarefas');
 const botaoAlternarTema = document.getElementById('botao-alternar-tema');
+const botaoLimpar = document.getElementById('botao-limpar');
+const relogio = document.getElementById('relogio');
 
 let totalDeTarefas = 0;
 function adicionarTarefa() {
@@ -38,6 +40,18 @@ function adicionarTarefa() {
 }
 function atualizarContador() {
     contadorTarefas.textContent = `${totalDeTarefas} ${totalDeTarefas === 1 ? 'tarefa' : 'tarefas'} na lista`;
+    botaoLimpar.disabled = totalDeTarefas === 0; // só habilita se houver tarefas
+}
+function limparTarefas() {
+    if (totalDeTarefas === 0) {
+        return;
+    }
+    if (!confirm('Tem certeza que deseja limpar todas as tarefas?')) {
+        return;
+    }
+    listaTarefas.innerHTML = '';
+    totalDeTarefas = 0;
+    atualizarContador();
 }
 botaoAlternarTema.addEventListener('click', () => {
     document.body.classList.toggle('modo-escuro');
@@ -52,3 +66,10 @@ campoTarefa.addEventListener('keypress', (evento) => {
         adicionarTarefa();
     }
 });
+botaoLimpar.addEventListener('click', limparTarefas);
+
+function atualizarRelogio() {
+    relogio.textContent = new Date().toLocaleTimeString('pt-BR');
+}
+atualizarRelogio();
+setInterval(atualizarRelogio, 1000);
