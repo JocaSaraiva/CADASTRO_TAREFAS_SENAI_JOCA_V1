@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- Aplica o tema salvo antes de a página aparecer (evita piscar no modo claro) -->
+    <script>
+        try { if (localStorage.getItem('tema') === 'escuro') document.body.classList.add('modo-escuro'); } catch (e) {}
+    </script>
     <div class="cartao-aplicacao">
         <!-- Banner decorativo: título e botão de tema ficam dentro dele -->
         <header class="cabecalho-aplicacao banner">
